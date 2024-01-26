@@ -39,7 +39,7 @@ export default function Home() {
         >
           Fetch
         </button>
-        <h1>{weather.name}</h1>
+        <h1>{typeOf(weather)}</h1>
       </div>
     </main>
   );
