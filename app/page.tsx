@@ -39,6 +39,7 @@ export default function Home() {
         >
           Fetch
         </button>
+        <h1>{weather.name}</h1>
       </div>
     </main>
   );
