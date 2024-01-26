@@ -21,6 +21,7 @@ export default function Home() {
       });
       setCity("");
       setLoading(false);
+      console.log(typeof(weather));
     } catch (error) {
       console.log("ERR:", error);
     }
@@ -39,7 +40,6 @@ export default function Home() {
         >
           Fetch
         </button>
-        <h1>{typeOf(weather)}</h1>
       </div>
     </main>
   );
