@@ -21,7 +21,7 @@ export default function Home() {
       });
       setCity("");
       setLoading(false);
-      console.log(typeof(weather));
+      console.log("This is the type",typeof(weather));
     } catch (error) {
       console.log("ERR:", error);
     }
