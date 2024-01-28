@@ -4,6 +4,7 @@ import axios from "axios";
 import { BsSearch } from "react-icons/bs";
 import { error } from "console";
 import Image from "next/image";
+import Weather from "./(components)/weather";
 
 export default function Home() {
   const [city, setCity] = useState("");
@@ -12,7 +13,8 @@ export default function Home() {
 
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=${process.env.NEXT_PUBLIC_WEADAPP_KEY}`;
 
-  const fetchWeather = async () => {
+  const fetchWeather = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     try {
       setLoading(true);
       await axios.get(url).then((response: any) => {
@@ -21,7 +23,8 @@ export default function Home() {
       });
       setCity("");
       setLoading(false);
-      console.log("This is the type",typeof(weather));
+      console.log("This is the type", typeof weather);
+      console.log("This is", city);
     } catch (error) {
       console.log("ERR:", error);
     }
@@ -33,13 +36,21 @@ export default function Home() {
     flex justify-center p-10 bg-fixed 
     "
     >
-      <div className="backdrop-blur-md bg-white/30 rounded-lg p-5 ">
-        <button
-          className="p-4 h-28 bg-slate-600 hover:bg-slate-300"
-          onClick={fetchWeather}
-        >
-          Fetch
-        </button>
+      <div className="backdrop-blur-md bg-white/30 rounded-3xl p-5 ">
+        <div className=" rounded-xl outline outline-slate-300 p-2">
+          <form>
+            <input
+              onChange={(e) => setCity(e.target.value)}
+              type="text"
+              placeholder="Search city"
+              className="bg-transparent placeholder:text-gray-400 text-slate-300 focus:outline-none text-2xl"
+            />
+            <button className="p-2 text-slate-300" onClick={fetchWeather}>
+              <BsSearch size={20} />
+            </button>
+          </form>
+        </div>
+        {<Weather weather={weather} />}
       </div>
     </main>
   );
