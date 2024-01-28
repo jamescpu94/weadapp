@@ -6,10 +6,14 @@ import { error } from "console";
 import Image from "next/image";
 import Weather from "./(components)/weather";
 
-export default function Home() {
-  const [city, setCity] = useState("");
-  const [weather, setWeather] = useState("");
-  const [loading, setLoading] = useState(false);
+interface WeatherData {
+  main: Object;
+}
+
+const Home: React.FC = () => {
+  const [city, setCity] = useState<string>("");
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=${process.env.NEXT_PUBLIC_WEADAPP_KEY}`;
 
@@ -17,14 +21,14 @@ export default function Home() {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.get(url).then((response: any) => {
-        setWeather(response.data);
+      await axios.get<WeatherData>(url).then((response: any) => {
+        setWeather(response.data.main);
         console.log(response.data);
       });
       setCity("");
       setLoading(false);
-      console.log("This is the type", typeof weather);
-      console.log("This is", city);
+      console.log("This is the weather", weather);
+      console.log("This is city", city);
     } catch (error) {
       console.log("ERR:", error);
     }
@@ -50,8 +54,10 @@ export default function Home() {
             </button>
           </form>
         </div>
-        {<Weather weather={weather} />}
+        {weather && <Weather weather={weather} />}
       </div>
     </main>
   );
-}
+};
+
+export default Home;
