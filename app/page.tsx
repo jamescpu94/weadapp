@@ -4,9 +4,18 @@ import axios from "axios";
 import { BsSearch } from "react-icons/bs";
 import { error } from "console";
 import Image from "next/image";
-import Weather from "./(components)/weather";
+import Weather from "./(components)/Weather";
 
 interface MainWeatherData {
+  wind: {
+    deg: number;
+    speed: number;
+  };
+  sys: {
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
   name: string;
   main: {
     temp: number;
@@ -32,8 +41,7 @@ const Home: React.FC = () => {
   const [weather, setWeather] = useState<MainWeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.NEXT_PUBLIC_WEADAPP_KEY}&units=metric`;
-
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&cnt=7&appid=${process.env.NEXT_PUBLIC_WEADAPP_KEY}&units=metric`;
   const fetchWeather = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
@@ -52,27 +60,27 @@ const Home: React.FC = () => {
 
   return (
     <main
-      className="absolute top-0 left-0 right-0 bottom-0 bg-[url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-no-repeat bg bg-cover
-    p-10 bg-fixed 
+      className="h-screen  top-0 left-0 right-0 bottom-0 bg-[url('https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-no-repeat bg-cover bg-fixed
+    p-10
     "
     >
-      <div className="backdrop-blur-md bg-white/30 rounded-3xl p-5 ">
-        <div className=" rounded-xl outline outline-slate-300 p-2">
+      <div className="backdrop-blur-sm bg-white/30 rounded-3xl p-5 ">
+        <div className=" rounded-xl p-2">
           <form className="flex justify-between w-full">
             <input
               onChange={(e) => setCity(e.target.value)}
               type="text"
               placeholder="Search city"
-              className="bg-transparent placeholder:text-gray-300 text-slate-300  w-4/6 focus:outline-none text-2xl"
+              className="bg-transparent placeholder:text-gray-300 text-white/90  w-4/6 focus:outline-none text-2xl"
             />
-            <button className="p-2 text-slate-300" onClick={fetchWeather}>
+            <button className="p-2 text-white/90" onClick={fetchWeather}>
               <BsSearch size={20} />
             </button>
           </form>
         </div>
       </div>
-      <div className=" mt-10 backdrop-blur-md bg-white/30 rounded-3xl p-5 ">
-        <div className="backdrop-blur-md bg-white/30 rounded-3xl p-5 ">
+      <div className=" mt-10 ">
+        <div className="backdrop-blur-xl bg-white/10  rounded-2xl p-10 ">
           {weather ? (
             <Weather weather={weather} />
           ) : (

@@ -1,8 +1,20 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import Card from "./Card";
+import convertUnixUTCto12Hour from "./TimeConverter";
+import WindDirection from "./WindDirectionConverter";
 
 interface WeatherData {
+  wind: {
+    deg: number;
+    speed: number;
+  };
+  sys: {
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
   name: string;
   main: {
     temp: number;
@@ -23,48 +35,66 @@ interface WeatherData {
     }
   ];
 }
-const Weather: React.FC<{ weather: WeatherData | null }> = ({ weather }) => {
+
+const Weather: React.FC<{ weather: WeatherData }> = ({ weather }) => {
   console.log("pass weather", weather);
 
-  if (weather) {
-    const {
-      temp,
-      feels_like,
-      temp_min,
-      temp_max,
-      pressure,
-      humidity,
-      sea_level,
-      grnd_level,
-    } = weather.main;
+  const {
+    temp,
+    feels_like,
+    temp_min,
+    temp_max,
+    pressure,
+    humidity,
+    sea_level,
+    grnd_level,
+  } = weather.main;
 
-    const { main, description, icon } = weather.weather[0];
+  const { speed, deg } = weather.wind;
 
-    return (
-      <div className="text-center p-10 text-white ">
-        <h4>{weather.name}</h4>
-        <Image
-          className="m-auto"
-          src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
-          width={100}
-          height={100}
-          alt="weather icon"
-        />
-        <h2>{temp.toFixed(0)}°C</h2>
-        <h5>{description}</h5>
-        <p>Feels like {feels_like.toFixed(0)} °C</p>
-        <p>
-          L: {temp_min.toFixed(0)} °C - H: {temp_max.toFixed(0)} °C
-        </p>
+  const { country, sunrise, sunset } = weather.sys;
+
+  const { main, description, icon } = weather.weather[0];
+
+  return (
+    <>
+      <h3 className="text-white text-center md:text-left">
+        {weather.name}, {country}
+      </h3>
+
+      <div className="md:flex">
+        <div className="text-center p-10 text-white">
+          <div className="flex justify-center py-5">
+            <Image
+              className=""
+              src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
+              width={60}
+              height={60}
+              alt="weather icon"
+            />
+            <h2>{temp.toFixed(0)}°C</h2>
+          </div>
+          <h5>{description}</h5>
+          <p>Feels like {feels_like.toFixed(0)} °C</p>
+          <p>
+            L: {temp_min.toFixed(0)} °C - H: {temp_max.toFixed(0)} °C
+          </p>
+        </div>
+
+        <div className="gap-5 p-5 text-white grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-full ">
+          <Card title="Humidity" data={`${humidity.toFixed(0)}%`} />
+          <Card title="Pressure" data={`${pressure.toFixed(0)} hPa`} />
+
+          <Card title="Sunrise" data={convertUnixUTCto12Hour(sunrise)} />
+          <Card title="Sunset" data={convertUnixUTCto12Hour(sunset)} />
+
+          <Card title="Wind speed" data={`${speed.toFixed(0)} km/h`} />
+
+          <Card title="Wind direction" data={WindDirection(deg)} />
+        </div>
       </div>
-    );
-  } else {
-    return (
-      <div>
-        <h1>No Weather Data</h1>
-      </div>
-    );
-  }
+    </>
+  );
 };
 
 export default Weather;
