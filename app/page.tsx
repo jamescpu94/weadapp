@@ -85,7 +85,7 @@ const Home: React.FC = () => {
             <Weather weather={weather} />
           ) : (
             <h5 className="text-center m-auto text-white p-10">
-              City not found
+              City not founs
             </h5>
           )}
         </div>
