@@ -1,9 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { BsSearch } from "react-icons/bs";
-import { error } from "console";
-import Image from "next/image";
 import Weather from "./(components)/Weather";
 
 interface MainWeatherData {
