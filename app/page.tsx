@@ -6,26 +6,42 @@ import { error } from "console";
 import Image from "next/image";
 import Weather from "./(components)/weather";
 
-interface WeatherData {
-  main: Object;
+interface MainWeatherData {
+  name: string;
+  main: {
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+    humidity: number;
+    sea_level: number;
+    grnd_level: number;
+  };
+  weather: [
+    {
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
+    }
+  ];
 }
-
 const Home: React.FC = () => {
   const [city, setCity] = useState<string>("");
-  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [weather, setWeather] = useState<MainWeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=${process.env.NEXT_PUBLIC_WEADAPP_KEY}`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.NEXT_PUBLIC_WEADAPP_KEY}&units=metric`;
 
   const fetchWeather = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.get<WeatherData>(url).then((response: any) => {
-        setWeather(response.data.main);
+      await axios.get<MainWeatherData>(url).then((response: any) => {
+        setWeather(response.data);
         console.log(response.data);
       });
-      setCity("");
       setLoading(false);
       console.log("This is the weather", weather);
       console.log("This is city", city);

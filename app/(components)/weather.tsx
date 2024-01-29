@@ -1,7 +1,9 @@
 "use client";
 import React from "react";
-
+import Image from "next/image";
+// Weather.tsx
 interface WeatherData {
+  name: string;
   main: {
     temp: number;
     feels_like: number;
@@ -12,10 +14,17 @@ interface WeatherData {
     sea_level: number;
     grnd_level: number;
   };
+  weather: [
+    {
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
+    }
+  ];
 }
-
 const Weather: React.FC<{ weather: WeatherData | null }> = ({ weather }) => {
-  console.log("this is it fuck", weather?.main?.feels_like);
+  console.log("icon", weather);
   if (!weather || !weather.main) {
     return (
       <div>
@@ -33,12 +42,21 @@ const Weather: React.FC<{ weather: WeatherData | null }> = ({ weather }) => {
       sea_level,
       grnd_level,
     } = weather.main;
+
+    const { main, description, icon } = weather.weather[0];
+
     return (
-      <div>
-        <h1>Weather</h1>
-        <h2>Feels Like: {feels_like} °C</h2>
-        <p>dsad</p>
-        {/* Display other weather details as needed */}
+      <div className="justify-items-center grid">
+        <Image
+          src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
+          width={100}
+          height={100}
+          alt="weather icon"
+        />
+        <h3>{weather.name}</h3>
+        <h1>{temp.toFixed(0)} °C</h1>
+        <h1>{description}</h1>
+        <h2>Feels Like: {feels_like.toFixed(0)} °C</h2>
       </div>
     );
   }
