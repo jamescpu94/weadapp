@@ -2,7 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { BsSearch } from "react-icons/bs";
-import Weather from "./(components)/Weather";
+import Weather from "./(components)/WeatherComp";
 
 interface MainWeatherData {
   wind: {
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
             <Weather weather={weather} />
           ) : (
             <h5 className="text-center m-auto text-white p-10">
-              City not founs
+              City not found
             </h5>
           )}
         </div>
