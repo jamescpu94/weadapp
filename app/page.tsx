@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { BsSearch } from "react-icons/bs";
 import { error } from "console";
@@ -44,9 +44,9 @@ const Home: React.FC = () => {
       });
       setLoading(false);
       console.log("This is the weather", weather);
-      console.log("This is city", city);
     } catch (error) {
       console.log("ERR:", error);
+      setWeather(null);
     }
   };
 
@@ -70,7 +70,11 @@ const Home: React.FC = () => {
             </button>
           </form>
         </div>
-        {weather && <Weather weather={weather} />}
+        {weather ? (
+          <Weather weather={weather} />
+        ) : (
+          <h5 className="text-center m-auto text-white p-10">City not found</h5>
+        )}
       </div>
     </main>
   );

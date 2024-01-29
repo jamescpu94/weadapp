@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-// Weather.tsx
+
 interface WeatherData {
   name: string;
   main: {
@@ -24,14 +24,9 @@ interface WeatherData {
   ];
 }
 const Weather: React.FC<{ weather: WeatherData | null }> = ({ weather }) => {
-  console.log("icon", weather);
-  if (!weather || !weather.main) {
-    return (
-      <div>
-        <h1>No Weather Data</h1>
-      </div>
-    );
-  } else {
+  console.log("pass weather", weather);
+
+  if (weather) {
     const {
       temp,
       feels_like,
@@ -46,17 +41,24 @@ const Weather: React.FC<{ weather: WeatherData | null }> = ({ weather }) => {
     const { main, description, icon } = weather.weather[0];
 
     return (
-      <div className="justify-items-center grid">
+      <div className="text-center p-10 text-white ">
+        <h4>{weather.name}</h4>
         <Image
+          className="m-auto"
           src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
           width={100}
           height={100}
           alt="weather icon"
         />
-        <h3>{weather.name}</h3>
-        <h1>{temp.toFixed(0)} °C</h1>
-        <h1>{description}</h1>
-        <h2>Feels Like: {feels_like.toFixed(0)} °C</h2>
+        <h2>{temp.toFixed(0)}°C</h2>
+        <h5>{description}</h5>
+        <p>Feels like {feels_like.toFixed(0)} °C</p>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <h1>No Weather Data</h1>
       </div>
     );
   }
