@@ -53,6 +53,9 @@ const Weather: React.FC<{ weather: WeatherData | null }> = ({ weather }) => {
         <h2>{temp.toFixed(0)}°C</h2>
         <h5>{description}</h5>
         <p>Feels like {feels_like.toFixed(0)} °C</p>
+        <p>
+          L: {temp_min.toFixed(0)} °C - H: {temp_max.toFixed(0)} °C
+        </p>
       </div>
     );
   } else {

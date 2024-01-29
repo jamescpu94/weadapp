@@ -53,28 +53,34 @@ const Home: React.FC = () => {
   return (
     <main
       className="absolute top-0 left-0 right-0 bottom-0 bg-[url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-no-repeat bg bg-cover
-    flex justify-center p-10 bg-fixed 
+    p-10 bg-fixed 
     "
     >
       <div className="backdrop-blur-md bg-white/30 rounded-3xl p-5 ">
         <div className=" rounded-xl outline outline-slate-300 p-2">
-          <form>
+          <form className="flex justify-between w-full">
             <input
               onChange={(e) => setCity(e.target.value)}
               type="text"
               placeholder="Search city"
-              className="bg-transparent placeholder:text-gray-400 text-slate-300 focus:outline-none text-2xl"
+              className="bg-transparent placeholder:text-gray-300 text-slate-300  w-4/6 focus:outline-none text-2xl"
             />
             <button className="p-2 text-slate-300" onClick={fetchWeather}>
               <BsSearch size={20} />
             </button>
           </form>
         </div>
-        {weather ? (
-          <Weather weather={weather} />
-        ) : (
-          <h5 className="text-center m-auto text-white p-10">City not found</h5>
-        )}
+      </div>
+      <div className=" mt-10 backdrop-blur-md bg-white/30 rounded-3xl p-5 ">
+        <div className="backdrop-blur-md bg-white/30 rounded-3xl p-5 ">
+          {weather ? (
+            <Weather weather={weather} />
+          ) : (
+            <h5 className="text-center m-auto text-white p-10">
+              City not found
+            </h5>
+          )}
+        </div>
       </div>
     </main>
   );
