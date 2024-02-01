@@ -62,14 +62,14 @@ const Home: React.FC = () => {
     p-10
     "
     >
-      <div className="backdrop-blur-sm bg-white/30 rounded-3xl p-5 ">
+      <div className="backdrop-blur-sm bg-white/20 rounded-3xl p-5 ">
         <div className=" rounded-xl p-2">
           <form className="flex justify-between w-full">
             <input
               onChange={(e) => setCity(e.target.value)}
               type="text"
               placeholder="Search city"
-              className="bg-transparent placeholder:text-gray-300 text-white/90  w-4/6 focus:outline-none text-2xl"
+              className="bg-transparent placeholder:text-gray-300 text-white/90  w-full focus:outline-none text-2xl"
             />
             <button className="p-2 text-white/90" onClick={fetchWeather}>
               <BsSearch size={20} />
