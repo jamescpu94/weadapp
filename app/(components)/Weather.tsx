@@ -4,6 +4,7 @@ import Image from "next/image";
 import Card from "./Card";
 import convertUnixUTCto12Hour from "./TimeConverter";
 import WindDirection from "./WindDirectionConverter";
+import { BsPlus } from "react-icons/bs";
 
 interface WeatherData {
   wind: {
@@ -36,7 +37,10 @@ interface WeatherData {
   ];
 }
 
-const Weather: React.FC<{ weather: WeatherData }> = ({ weather }) => {
+const Weather: React.FC<{ weather: WeatherData; handleAdd: Function }> = ({
+  weather,
+  handleAdd,
+}) => {
   console.log("pass weather", weather);
 
   const {
@@ -57,7 +61,13 @@ const Weather: React.FC<{ weather: WeatherData }> = ({ weather }) => {
   const { main, description, icon } = weather.weather[0];
 
   return (
-    <>
+    <div className=" backdrop-blur-xl bg-white/10  rounded-2xl p-10 justify-end relative">
+      <button
+        onClick={() => handleAdd(weather.name)}
+        className="flex ml-auto font-semibold bg-white text-gray-700  p-2 rounded-xl absolute top-5 right-5"
+      >
+        <BsPlus size={25} />
+      </button>
       <h3 className="text-white text-center md:text-left">
         {weather.name}, {country}
       </h3>
@@ -84,16 +94,13 @@ const Weather: React.FC<{ weather: WeatherData }> = ({ weather }) => {
         <div className="gap-5 p-5 text-white grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-full ">
           <Card title="Humidity" data={`${humidity.toFixed(0)}%`} />
           <Card title="Pressure" data={`${pressure.toFixed(0)} hPa`} />
-
           <Card title="Sunrise" data={convertUnixUTCto12Hour(sunrise)} />
           <Card title="Sunset" data={convertUnixUTCto12Hour(sunset)} />
-
           <Card title="Wind speed" data={`${speed.toFixed(0)} km/h`} />
-
           <Card title="Wind direction" data={WindDirection(deg)} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

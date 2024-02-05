@@ -37,15 +37,16 @@ interface MainWeatherData {
 const Home: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const [city, setCity] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
   const [cityList, setCityList] = useState<Array<string>>([
-    "Guelph",
-    "Hamilton",
-    "New York",
+    // "Guelph",
+    // "Hamilton",
+    // "New York",
   ]);
   const [weather, setWeather] = useState<MainWeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&cnt=7&appid=${process.env.NEXT_PUBLIC_WEADAPP_KEY}&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&cnt=7&appid=${process.env.NEXT_PUBLIC_WEADAPP_KEY}&units=metric`;
 
   const fetchWeather = async () => {
     try {
@@ -59,6 +60,10 @@ const Home: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const addToFave = (cityName: string) => {
+    setCityList([cityName, ...cityList]);
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -83,34 +88,33 @@ const Home: React.FC = () => {
     "
     >
       <h2>Weadapp</h2>
-      <div className="flex flex-col lg:flex-row ">
+      <div className="mt-10 flex flex-col lg:flex-row">
         <CityList cities={cityList} onCitySelect={handleCitySelection} />
 
-        <div>
-          <div className="backdrop-blur-sm bg-white/20 rounded-3xl p-5 ">
-            <div className=" rounded-xl p-2">
-              <form className="flex justify-between w-full">
-                <input
-                  onChange={(e) => setSearch(e.target.value)}
-                  type="text"
-                  placeholder="Search city"
-                  className="bg-transparent placeholder:text-gray-300 text-white/90  w-full focus:outline-none text-2xl"
-                />
-                <button className="p-2 text-white/90" onClick={handleSubmit}>
-                  <BsSearch size={20} />
-                </button>
-              </form>
-            </div>
+        <div className="w-full">
+          <div className="backdrop-blur-xl bg-white/10 rounded-3xl p-5 my-5 ">
+            {/* Search */}
+            <form className="flex justify-between w-full">
+              <input
+                onChange={(e) => setSearch(e.target.value)}
+                type="text"
+                placeholder="Search city"
+                className="bg-transparent placeholder:text-gray-300 text-white/90  w-full focus:outline-none text-2xl"
+              />
+              <button className="p-2 text-white/90" onClick={handleSubmit}>
+                <BsSearch size={20} />
+              </button>
+            </form>
           </div>
-          <div className="  backdrop-blur-xl bg-white/10  rounded-2xl p-10 ">
-            {weather ? (
-              <Weather weather={weather} />
-            ) : (
+          {weather ? (
+            <Weather weather={weather} handleAdd={addToFave} />
+          ) : (
+            <div className="  backdrop-blur-xl bg-white/10  rounded-2xl p-10 ">
               <h5 className="text-center m-auto text-white p-10">
                 City not found
               </h5>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </main>
