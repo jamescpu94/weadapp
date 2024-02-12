@@ -33,16 +33,13 @@ interface MainWeatherData {
       icon: string;
     }
   ];
+  id: number;
 }
 const Home: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [country, setCountry] = useState<string>("");
-  const [cityList, setCityList] = useState<Array<string>>([
-    // "Guelph",
-    // "Hamilton",
-    // "New York",
-  ]);
+  const [cityList, setCityList] = useState<Array<string>>([]);
   const [weather, setWeather] = useState<MainWeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 

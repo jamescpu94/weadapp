@@ -35,6 +35,7 @@ interface WeatherData {
       icon: string;
     }
   ];
+  id: number;
 }
 
 const Weather: React.FC<{ weather: WeatherData; handleAdd: Function }> = ({
@@ -55,9 +56,7 @@ const Weather: React.FC<{ weather: WeatherData; handleAdd: Function }> = ({
   } = weather.main;
 
   const { speed, deg } = weather.wind;
-
   const { country, sunrise, sunset } = weather.sys;
-
   const { main, description, icon } = weather.weather[0];
 
   return (
